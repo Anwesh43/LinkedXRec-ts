@@ -2,7 +2,12 @@ const w : number = window.innerWidth, h : number = window.innerHeight, nodes : n
 
 class LinkedXRecStage {
     canvas : HTMLCanvasElement = document.createElement('canvas')
+
     context : CanvasRenderingContext2D
+
+    linkedXR : LinkedXR = new LinkedXR()
+
+    animator : Animator = new Animator()
 
     constructor() {
         this.initCanvas()
@@ -18,11 +23,19 @@ class LinkedXRecStage {
     render() {
         this.context.fillStyle = '#212121'
         this.context.fillRect(0, 0, w, h)
+        this.linkedXR.draw(this.context)
     }
 
     handleTap() {
         this.canvas.onmousedown = () => {
-
+            this.linkedXR.startUpdating(() => {
+                this.animator.start(() => {
+                    this.render()
+                    this.linkedXR.update(() => {
+                        this.animator.stop()
+                    })
+                })
+            })
         }
     }
 
