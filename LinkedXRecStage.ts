@@ -105,4 +105,29 @@ class XRNode {
             this.next.prev = this
         }
     }
+
+    draw(context : CanvasRenderingContext2D) {
+        const rot : number = (2 * Math.PI)/nodes
+        const size : number = Math.min(w, h) / 3
+        context.save()
+        context.translate(w/2, h/2)
+        context.rotate(rot * this.i + Math.PI/4 + rot * this.state.scale)
+        context.beginPath()
+        context.moveTo(0, 0)
+        context.lineTo(0, -size)
+        context.stroke()
+        context.restore()
+    }
+
+    getNext(dir : number, cb : Function) {
+        var curr : XRNode = this.prev
+        if (dir == 1) {
+            curr = this.next
+        }
+        if (curr) {
+            return curr
+        }
+        cb()
+        return this
+    }
 }
