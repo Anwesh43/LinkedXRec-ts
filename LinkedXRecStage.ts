@@ -1,4 +1,12 @@
-const w : number = window.innerWidth, h : number = window.innerHeight, nodes : number = 4
+var w : number = window.innerWidth, h : number = window.innerHeight, nodes : number = 4
+const cbs : Array<Function> = []
+window.onresize = () => {
+    w = window.innerWidth
+    h = window.innerHeight
+    cbs.forEach((cb) => {
+        cb()
+    })
+}
 
 class LinkedXRecStage {
     canvas : HTMLCanvasElement = document.createElement('canvas')
@@ -14,10 +22,18 @@ class LinkedXRecStage {
     }
 
     initCanvas() {
+        this.setSize()
+        document.body.appendChild(this.canvas)
+        cbs.push(() => {
+            this.setSize()
+            this.render()
+        })
+    }
+
+    setSize() {
         this.canvas.width = w
         this.canvas.height = h
         this.context = this.canvas.getContext('2d')
-        document.body.appendChild(this.canvas)
     }
 
     render() {
