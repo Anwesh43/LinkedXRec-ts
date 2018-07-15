@@ -131,3 +131,30 @@ class XRNode {
         return this
     }
 }
+
+class LinkedXR {
+
+    curr : XRNode = new XRNode(0)
+
+    dir : number = 1
+
+    draw(context : CanvasRenderingContext2D) {
+        context.strokeStyle = '#2ecc71'
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / 60
+        this.curr.draw(context)
+    }
+
+    update(cb : Function) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            cb()
+        })
+    }
+
+    startUpdating(cb : Function) {
+        this.curr.startUpdating(cb)
+    }
+}
