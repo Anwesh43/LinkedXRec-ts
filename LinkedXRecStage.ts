@@ -21,7 +21,13 @@ class LinkedXRecStage {
 
     handleTap() {
         this.canvas.onmousedown = () => {
-            
+
         }
+    }
+
+    static init() {
+        const stage : LinkedXRecStage = new LinkedXRecStage()
+        stage.render()
+        stage.handleTap()
     }
 }
