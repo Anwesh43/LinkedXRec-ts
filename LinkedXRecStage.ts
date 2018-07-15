@@ -1,4 +1,5 @@
 const w : number = window.innerWidth, h : number = window.innerHeight, nodes : number = 4
+
 class LinkedXRecStage {
     canvas : HTMLCanvasElement = document.createElement('canvas')
     context : CanvasRenderingContext2D
@@ -53,6 +54,28 @@ class State {
         if (this.dir == 0) {
             this.dir = 1 - 2 * this.prevScale
             cb()
+        }
+    }
+}
+
+class Animator {
+    animated : boolean = false
+
+    interval : number
+
+    start(cb : Function) {
+        if (!this.animated) {
+            this.animated = true
+            this.interval = setInterval(() => {
+                cb()
+            }, 50)
+        }
+    }
+
+    stop() {
+        if (this.animated) {
+            this.animated = false
+            clearInterval(this.interval)
         }
     }
 }
