@@ -79,3 +79,30 @@ class Animator {
         }
     }
 }
+
+class XRNode {
+    state : State = new State()
+
+    prev : XRNode
+
+    next : XRNode
+
+    constructor(private i : number) {
+
+    }
+
+    update(cb : Function) {
+        this.state.update(cb)
+    }
+
+    startUpdating(cb : Function) {
+        this.state.startUpdating(cb)
+    }
+
+    addNeighbor() {
+        if (this.i < nodes - 1) {
+            this.next = new XRNode(this.i + 1)
+            this.next.prev = this
+        }
+    }
+}
