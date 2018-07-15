@@ -101,7 +101,7 @@ class XRNode {
     next : XRNode
 
     constructor(private i : number) {
-
+        this.addNeighbor()
     }
 
     update(cb : Function) {
@@ -130,6 +130,9 @@ class XRNode {
         context.lineTo(0, -size)
         context.stroke()
         context.restore()
+        if (this.next) {
+            this.next.draw(context)
+        }
     }
 
     getNext(dir : number, cb : Function) {
